@@ -1,4 +1,4 @@
-export default function Home() {
+export function Home() {
 
   return (
     <div className='h-screen bg-color3-30 text-white p-2 md:p-4 flex flex-col items-center space-y-6'>

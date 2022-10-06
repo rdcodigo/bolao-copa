@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 body{
+    @apply text-color3-30;
     font-family: Cairo, 'Courier New', Courier, monospace;
+}
+
+input{
+    outline: 0;
 }
