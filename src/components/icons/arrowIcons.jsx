@@ -1,10 +1,14 @@
-import {ReactComponent as arrowBack} from './../../../public/imgs/icones/back.svg'
+import { ReactComponent as arrowBack } from './../../../public/imgs/icones/arrow-back.svg'
+import { ReactComponent as arrowLeft } from './../../../public/imgs/icones/arrow-left.svg'
+import { ReactComponent as arrowRight } from './../../../public/imgs/icones/arrow-right.svg'
 
 const icons = {
-        arrowBack
+        arrowBack,
+        arrowLeft,
+        arrowRight
 }
 
-export function ArrowIcon ({name, ...props}){
+export function ArrowIcon({ name, ...props }) {
         const Element = icons[name]
         return (
                 <div>

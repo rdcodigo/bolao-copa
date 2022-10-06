@@ -7,6 +7,8 @@ import {
 import { Home } from './components/pages/home'
 import { Signup } from './components/pages/signup'
 import { Login } from './components/pages/login'
+import { Profile } from './components/pages/profile'
+import { Dashboard } from './components/pages/dashboard'
 
 const routers = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const routers = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  }
 ]);
 
 export default function Router() {
