@@ -11,8 +11,8 @@ const icons = {
 export function ArrowIcon({ name, ...props }) {
         const Element = icons[name]
         return (
-                <div>
+                <>
                         <Element {...props} />
-                </div>
+                </>
         )
 }

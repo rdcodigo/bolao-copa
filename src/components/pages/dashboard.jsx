@@ -1,9 +1,10 @@
 import { ProfileIcon } from "../icons/profileIcons"
-import { GuessCard } from "../guessCard"
+import { GuessCard } from "../guess/guessCard"
+import { GuessDate } from "../guess/guessDate"
 
 export function Dashboard() {
     return (
-        <div>
+        <>
 
             <header className="py-4 text-color2 bg-color3-20 p-6 " >
                 <section className="container max-w-xl flex justify-between">
@@ -22,14 +23,63 @@ export function Dashboard() {
                 </section>
             </header>
 
-            <main className="container max-w-xl p-6">
+            <main className="container max-w-xl p-6 space-y-4">
+                <GuessDate />
+
                 <GuessCard
-                    data="24 de novembro"
-                    timeA="sui"
-                    timeB="cam"
-                    match="7:00"
+                    timeA={
+                        {
+                            name: 'sui'
+                        }
+                    }
+                    timeB={
+                        {
+                            name: 'cam'
+                        }
+                    }
+                    match={
+                        {
+                            time: '7:00'
+                        }
+                    }
+                />
+
+                <GuessCard
+                    timeA={
+                        {
+                            name: 'uru'
+                        }
+                    }
+                    timeB={
+                        {
+                            name: 'cor'
+                        }
+                    }
+                    match={
+                        {
+                            time: '10:00'
+                        }
+                    }
+                />
+
+                <GuessCard
+                    timeA={
+                        {
+                            name: 'por'
+                        }
+                    }
+                    timeB={
+                        {
+                            name: 'gan'
+                        }
+                    }
+                    match={
+                        {
+                            time: '13:00'
+                        }
+                    }
                 />
             </main>
-        </div>
+        </>
     )
 }

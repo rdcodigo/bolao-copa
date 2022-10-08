@@ -4,7 +4,7 @@ import { Input } from "../inputs/dataInputs"
 export function Login() {
 
     return (
-        <div>
+        <>
             <header className="p-4 border-b border-color3-10">
                 <div className="container max-w-xl flex justify-center">
                     <img src="../public/imgs/logo/logo-fundo-branco.svg" className="w-28 md:w-36" ></img>
@@ -41,6 +41,6 @@ export function Login() {
                     </form>
                 </section>
             </main>
-        </div>
+        </>
     )
 }

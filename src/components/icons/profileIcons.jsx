@@ -8,8 +8,8 @@ const icons = {
 export function ProfileIcon ({name, ...props}){
         const Element = icons[name]
         return (
-                <div>
+                <>
                         <Element {...props} />
-                </div>
+                </>
         )
 }
