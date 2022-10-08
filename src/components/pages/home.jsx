@@ -1,7 +1,7 @@
 export function Home() {
 
   return (
-    <div className='h-screen bg-color3-30 text-white p-2 md:p-4 flex flex-col items-center space-y-6'>
+    <div className='h-screen bg-color3-30 text-color2 p-2 md:p-4 flex flex-col items-center space-y-6'>
 
       <header className="container max-w-4xl md:p-4 flex justify-center">
         <img src="../public/imgs/logo/logo-fundo-vinho.svg" width={100}></img>
