@@ -1,11 +1,21 @@
 import Router from '@koa/router'
-
 export const router = new Router();
 
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+const users = []
+
 router.get('/', async (ctx, next) => {
-    ctx.body = 'Hello World'
+    ctx.body = users
 })
 
-router.get('/users', async (ctx, next) => {
-    ctx.body = 'Hello Users'
+router.post('/users', async (ctx, next) => {
+    const user = {
+        name: ctx.request.body.username
+    }
+
+    users.push(user)
+    
+    ctx.body = user
 })

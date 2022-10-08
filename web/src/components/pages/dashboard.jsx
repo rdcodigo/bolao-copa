@@ -1,6 +1,6 @@
 import { ProfileIcon } from "../icons/profileIcons"
-import { GuessCard } from "../guess/guessCard"
-import { GuessDate } from "../guess/guessDate"
+import { HunchCard } from "../hunches/hunchCard"
+import { HunchDate } from "../hunches/hunchDate"
 
 export function Dashboard() {
     return (
@@ -24,9 +24,9 @@ export function Dashboard() {
             </header>
 
             <main className="container max-w-xl p-6 space-y-4">
-                <GuessDate />
+                <HunchDate />
 
-                <GuessCard
+                <HunchCard
                     timeA={
                         {
                             name: 'sui'
@@ -44,7 +44,7 @@ export function Dashboard() {
                     }
                 />
 
-                <GuessCard
+                <HunchCard
                     timeA={
                         {
                             name: 'uru'
@@ -62,7 +62,7 @@ export function Dashboard() {
                     }
                 />
 
-                <GuessCard
+                <HunchCard
                     timeA={
                         {
                             name: 'por'

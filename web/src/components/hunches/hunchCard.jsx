@@ -1,5 +1,5 @@
 
-export function GuessCard({ match, timeA, timeB }) {
+export function HunchCard({ match, timeA, timeB }) {
     
     return (
         <section className=" space-y-6">

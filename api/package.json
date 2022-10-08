@@ -7,13 +7,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "author": {
     "name": "Diego Rodrigues",
     "email": "rdcodigo@gmail.com"
   },
   "license": "MIT",
   "dependencies": {
+    "@koa/cors": "^4.0.0",
     "@koa/router": "^12.0.0",
-    "koa": "^2.13.4"
+    "@prisma/client": "^4.4.0",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0"
+  },
+  "devDependencies": {
+    "prisma": "^4.4.0"
   }
 }

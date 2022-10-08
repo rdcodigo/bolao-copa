@@ -1,7 +1,7 @@
 import { ArrowIcon } from "../icons/arrowIcons"
 import { ProfileIcon } from "../icons/profileIcons"
-import { GuessCard } from "../guess/guessCard"
-import { GuessDate } from "../guess/guessDate"
+import { HunchCard } from "../hunches/hunchCard"
+import { HunchDate } from "../hunches/hunchDate"
 
 export function Profile() {
     return (
@@ -29,9 +29,9 @@ export function Profile() {
 
             <main className="container max-w-xl p-6 space-y-4">
                 <h2 className="text-xl font-bold text-color3-20">Seus Palpites</h2>
-                <GuessDate />
+                <HunchDate />
 
-                <GuessCard
+                <HunchCard
                     timeA={
                         {
                             name: 'sui'
@@ -49,7 +49,7 @@ export function Profile() {
                     }
                 />
 
-                <GuessCard
+                <HunchCard
                     timeA={
                         {
                             name: 'uru'
@@ -67,7 +67,7 @@ export function Profile() {
                     }
                 />
 
-                <GuessCard
+                <HunchCard
                     timeA={
                         {
                             name: 'por'

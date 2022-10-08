@@ -5,7 +5,7 @@ import { ptBR } from 'date-fns/locale'
 
 const initialDate = '2022-11-20T00:00:00Z'
 
-export function GuessDate() {
+export function HunchDate() {
 
     const [currentDate, setCurrentDate] = useState(new Date(initialDate))
 
