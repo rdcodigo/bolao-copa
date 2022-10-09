@@ -22,7 +22,7 @@ export async function create(ctx) {
     }
 }
 
-export async function list(ctx) {
+export async function listAll(ctx) {
     try {
         const user = await prisma.user.findMany()
 
