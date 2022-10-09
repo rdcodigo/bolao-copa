@@ -3,7 +3,7 @@ import { addDays, formatISO } from 'date-fns'
 
 const prisma = new PrismaClient()
 
-export async function listAll(ctx) {
+export async function list(ctx) {
 
     const currentDate = ctx.request.query.gameTime
 

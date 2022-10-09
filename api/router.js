@@ -6,10 +6,8 @@ import * as Game from './app/components/games.js'
 export const router = new Router()
 
 router.post('/users', User.create)
-router.get('/users', User.listAll)
 
 router.post('/hunches', Hunch.create)
 // router.get('/hunches', Hunch.create)
 
-router.get('/games', Game.listAll)
-
+router.get('/games', Game.list)
