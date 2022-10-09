@@ -6,6 +6,7 @@ import * as Game from './app/components/games.js'
 export const router = new Router()
 
 router.post('/users', User.create)
+router.get('/login', User.login)
 
 router.post('/hunches', Hunch.create)
 // router.get('/hunches', Hunch.create)
