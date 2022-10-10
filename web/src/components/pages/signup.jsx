@@ -1,7 +1,40 @@
 import { ArrowIcon } from "../icons/arrowIcons"
 import { Input } from "../inputs/dataInputs"
+import Axios from "axios"
+import { useFormik } from "formik"
+import * as Yup from "yup"
+import axios from "axios"
+
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required('Preencha seu nome'),
+  username: Yup.string().required('Preencha seu nome de usuário'),
+  email: Yup.string().email('Informe um email válido').required('Preencha seu email'),
+  password: Yup.string().required('Preencha sua senha')
+});
 
 export function Signup() {
+
+  const formik = useFormik({
+    onSubmit: async (values) => {
+
+      const res = await axios({
+        method: 'post',
+        baseURL: 'http://localhost:3000',
+        url: '/users',
+        data: values
+      })
+
+      console.log(res.data)
+    },
+    initialValues: {
+      name: '',
+      username: '',
+      email: '',
+      password: ''
+    },
+    validationSchema
+  })
 
   return (
     <>
@@ -20,19 +53,27 @@ export function Signup() {
             <h2 className="text-color3-30 text-xl font-bold">Crie sua conta</h2>
           </div>
 
-          <form className="p-4 space-y-6">
+          <form className="p-4 space-y-6" onSubmit={formik.handleSubmit}>
             <Input
               type="text"
               name="name"
               label="Seu nome"
               placeholder="Digite seu nome"
+              error={formik.touched.name && formik.errors.name}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
 
             <Input
               type="text"
-              name="userName"
+              name="username"
               label="Seu nome de usuário"
               placeholder="Digite um nome de usuário"
+              error={formik.touched.username && formik.errors.username}
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
 
             <Input
@@ -40,6 +81,10 @@ export function Signup() {
               name="email"
               label="Seu e-mail"
               placeholder="Digite seu e-mail"
+              error={formik.touched.email && formik.errors.email}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
 
             <Input
@@ -47,11 +92,20 @@ export function Signup() {
               name="password"
               label="Sua senha"
               placeholder="********"
+              error={formik.touched.password && formik.errors.password}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
 
-            <a href="./dashboard" className=' block w-full text-center text-color2 bg-color3-20 p-3 rounded-xl'>
+            <button
+              type="submit"
+              href="./dashboard"
+              className=' block w-full text-center text-color2 bg-color3-20 p-3 rounded-xl disabled:opacity-50'
+              disabled={!formik.isValid}
+            >
               Criar conta
-            </a>
+            </button>
           </form>
         </section>
       </main>
