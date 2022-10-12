@@ -3,6 +3,7 @@ import { BaseURL } from "../../router"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
+
 import { useLocalStorage } from "react-use"
 
 const validationSchema = Yup.object().shape({
@@ -10,7 +11,7 @@ const validationSchema = Yup.object().shape({
     awayTeamScore: Yup.string().required()
 });
 
-export function HunchCard({gameTime, homeTeam, awayTeam, gameId }) {
+export function HunchCard({disabled, gameTime, homeTeam, homeTeamScore, awayTeam, awayTeamScore, gameId }) {
 
     const [auth] = useLocalStorage('auth')
 
@@ -23,7 +24,7 @@ export function HunchCard({gameTime, homeTeam, awayTeam, gameId }) {
                         baseURL: BaseURL(),
                         url: '/hunches',
                         headers:{
-                            autorization: `Bearer ${auth.accessToken}`
+                            autorization: `Bearer ${auth.accessToken}`,
                         },
                         data: {
                             ...values,
@@ -33,8 +34,8 @@ export function HunchCard({gameTime, homeTeam, awayTeam, gameId }) {
                 )
             },
             initialValues: {
-                homeTeamScore: '',
-                awayTeamScore: ''
+                homeTeamScore,
+                awayTeamScore
             },
             validationSchema
         }
@@ -57,6 +58,7 @@ export function HunchCard({gameTime, homeTeam, awayTeam, gameId }) {
                         value={formik.values.homeTeamScore}
                         onChange={formik.handleChange}
                         onBlur={formik.handleSubmit}
+                        disabled={disabled}
                     />
 
                     <span className="text-xl text-color3-20 font-bold">X</span>
@@ -68,6 +70,7 @@ export function HunchCard({gameTime, homeTeam, awayTeam, gameId }) {
                         value={formik.values.awayTeamScore}
                         onChange={formik.handleChange}
                         onBlur={formik.handleSubmit}
+                        disabled={disabled}
                     />
 
                     <img src={`../public/imgs/bandeiras/${awayTeam}.png`} className="w-6 sm:w-10 md:w-18"></img>

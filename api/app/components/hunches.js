@@ -5,12 +5,13 @@ const prisma = new PrismaClient()
 
 export async function create(ctx) {
 
-    if (!ctx.headers.authorization){
+    if (!ctx.headers.authorization) {
         ctx.status = 401
         return
     }
 
     const [type, token] = ctx.headers.authorization.split(" ")
+    console.log(type, token)
 
     try {
         const data = jwt.verify(token, process.env.JWT_SECRET)
@@ -61,4 +62,28 @@ export async function create(ctx) {
         ctx.status = 401
         return
     }
+}
+
+export async function list(ctx) {
+    const username = ctx.request.params.username
+
+    const user = await prisma.user.findUnique({
+        where: { username }
+    })
+
+    if (!user) {
+        ctx.status = 404
+        return
+    }
+
+    const hunches = await prisma.hunch.findMany({
+        where: {
+            userId: user.id
+        },
+        // include: {
+        //     game: true
+        // }
+    })
+
+    ctx.body = hunches
 }

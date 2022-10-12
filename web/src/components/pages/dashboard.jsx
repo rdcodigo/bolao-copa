@@ -17,7 +17,28 @@ export function Dashboard() {
 
     const [auth] = useLocalStorage('auth', {})
 
-    const [state, doFetch] = useAsyncFn(
+    const [hunches, fetchHunches] = useAsyncFn(
+        async () => {
+            const res = await axios(
+                {
+                    methoc: 'get',
+                    baseURL: BaseURL(),
+                    url: `/${auth.user.username}`
+                }
+            )
+            
+            const hunches = res.data.reduce(
+                (acc, hunch)=>{
+                    acc[hunch.gameId] = hunch
+                    return acc
+                },
+                {}
+            )
+            return hunches
+        }
+    )
+
+    const [games, fetchGames] = useAsyncFn(
         async (params) => {
             const res = await axios(
                 {
@@ -31,10 +52,21 @@ export function Dashboard() {
             return res.data
         }
     )
+    
+    const isLoading = games.loading || hunches.loading
+    const hasError = games.error || hunches.error
+    const isDone = !isLoading && !hasError
 
     useEffect(
         ()=>{
-            doFetch({gameTime: currentDate})
+            fetchHunches()
+        },
+        []
+    )
+
+    useEffect(
+        ()=>{
+            fetchGames({gameTime: currentDate})
         },
         [currentDate]
     )
@@ -58,7 +90,7 @@ export function Dashboard() {
                     </div>
                 </section>
                 <section className="container max-w-xl py-6 space-y-6 flex flex-col">
-                    <span>Olá Diego</span>
+                    <span>Olá, {auth.user.username}</span>
                     <h1 className="text-xl md:text-2xl font-bold">Qual é o seu palpite?</h1>
                 </section>
             </header>
@@ -66,16 +98,20 @@ export function Dashboard() {
             <main className="container max-w-xl p-6 space-y-4">
                 <HunchDate currentDate={currentDate} onChange={setCurrentDate}/>
 
-                {state.loading && 'Carregando jogos...'}
-                {state.error && 'Ops, Algo deu errado'}
-                {!state.loading && !state.error && state.value?.map(
+                {isLoading && 'Carregando jogos...'}
+                {hasError && 'Ops, Algo deu errado'}
+
+                
+                {isDone && games.value?.map(
                     game => (
                         <HunchCard
-                            key={game.homeTeam+game.awayTeam}
+                            key={game.id}
                             gameId={game.id}
                             homeTeam={game.homeTeam }
                             awayTeam={game.awayTeam}
                             gameTime={format(new Date(game.gameTime), 'H:mm')}
+                            homeTeamScore={hunches?.value?.[game.id]?.homeTeamScore || ''}
+                            awayTeamScore={hunches?.value?.[game.id]?.awayTeamScore || ''}
                         />
                     )
                 )}

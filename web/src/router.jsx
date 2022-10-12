@@ -34,7 +34,7 @@ const routers = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
-  }
+  },
 ]);
 
 export function BaseURL(){
