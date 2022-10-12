@@ -22,7 +22,7 @@ export function HunchCard({disabled, gameTime, homeTeam, homeTeamScore, awayTeam
                         baseURL: import.meta.env.VITE_API_URL,
                         url: '/hunches',
                         headers:{
-                            autorization: `Bearer ${auth.accessToken}`,
+                            authorization: `Bearer ${auth.accessToken}`,
                         },
                         data: {
                             ...values,

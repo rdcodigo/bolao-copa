@@ -59,6 +59,7 @@ export async function create(ctx) {
         }
 
     } catch (error) {
+        console.log(error)
         ctx.status = 401
         return
     }

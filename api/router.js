@@ -9,7 +9,6 @@ router.post('/users', User.create)
 router.get('/login', User.login)
 
 router.post('/hunches', Hunch.create)
-// router.get('/hunches', Hunch.create)
 
 router.get('/games', Game.list)
 
