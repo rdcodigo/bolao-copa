@@ -1,5 +1,3 @@
-import { BaseURL } from "../../router"
-
 import { ArrowIcon } from "../icons/arrowIcons"
 
 import { Input } from "../inputs/dataInputs"
@@ -23,7 +21,7 @@ export function Login() {
 
             const res = await axios({
                 method: 'get',
-                baseURL: BaseURL(),
+                baseURL:import.meta.env.VITE_API_URL,
                 url: '/login',
                 auth: {
                     username: values.email,

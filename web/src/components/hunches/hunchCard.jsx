@@ -1,5 +1,3 @@
-import { BaseURL } from "../../router"
-
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
@@ -21,7 +19,7 @@ export function HunchCard({disabled, gameTime, homeTeam, homeTeamScore, awayTeam
                 axios(
                     {
                         method: 'post',
-                        baseURL: BaseURL(),
+                        baseURL: import.meta.env.VITE_API_URL,
                         url: '/hunches',
                         headers:{
                             autorization: `Bearer ${auth.accessToken}`,

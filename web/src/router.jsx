@@ -1,7 +1,6 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
 } from "react-router-dom";
 
 import { Home } from './components/pages/home'
@@ -28,7 +27,7 @@ const routers = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/profile",
+    path: "/:username",
     element: <Profile />,
   },
   {
@@ -36,12 +35,6 @@ const routers = createBrowserRouter([
     element: <Dashboard />,
   },
 ]);
-
-export function BaseURL(){
-  return (
-    'http://localhost:3000'
-  )
-}
 
 export default function Router() {
 

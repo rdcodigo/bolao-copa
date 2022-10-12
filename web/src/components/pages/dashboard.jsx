@@ -1,5 +1,3 @@
-import { BaseURL } from "../../router"
-
 import { ProfileIcon } from "../icons/profileIcons"
 import { HunchCard } from "../hunches/hunchCard"
 import { HunchDate } from "../hunches/hunchDate"
@@ -17,24 +15,27 @@ export function Dashboard() {
 
     const [auth] = useLocalStorage('auth', {})
 
-    const [hunches, fetchHunches] = useAsyncFn(
+    const [{value: user, loading, error}, fetchHunches] = useAsyncFn(
         async () => {
             const res = await axios(
                 {
                     methoc: 'get',
-                    baseURL: BaseURL(),
+                    baseURL: import.meta.env.VITE_API_URL,
                     url: `/${auth.user.username}`
                 }
             )
             
-            const hunches = res.data.reduce(
+            const hunches = res.data.hunches.reduce(
                 (acc, hunch)=>{
                     acc[hunch.gameId] = hunch
                     return acc
                 },
                 {}
             )
-            return hunches
+            return {
+                ...res.data,
+                hunches
+            }
         }
     )
 
@@ -43,7 +44,7 @@ export function Dashboard() {
             const res = await axios(
                 {
                     methoc: 'get',
-                    baseURL: BaseURL(),
+                    baseURL: import.meta.env.VITE_API_URL,
                     url: '/games',
                     params
                 }
@@ -53,8 +54,8 @@ export function Dashboard() {
         }
     )
     
-    const isLoading = games.loading || hunches.loading
-    const hasError = games.error || hunches.error
+    const isLoading = games.loading || loading
+    const hasError = games.error || error
     const isDone = !isLoading && !hasError
 
     useEffect(
@@ -84,7 +85,7 @@ export function Dashboard() {
                         <img src="../public/imgs/logo/logo-fundo-vermelho.svg" className="w-20 md:w-28"></img>
                     </div>
                     <div className="flex space-x-4 items-center">
-                        <a href="/profile">
+                        <a href={`/${auth?.user?.username}`}>
                             <ProfileIcon name="profile" className="w-6 md:w-10" />
                         </a>
                     </div>
@@ -110,8 +111,8 @@ export function Dashboard() {
                             homeTeam={game.homeTeam }
                             awayTeam={game.awayTeam}
                             gameTime={format(new Date(game.gameTime), 'H:mm')}
-                            homeTeamScore={hunches?.value?.[game.id]?.homeTeamScore || ''}
-                            awayTeamScore={hunches?.value?.[game.id]?.awayTeamScore || ''}
+                            homeTeamScore={user?.hunches?.[game.id]?.homeTeamScore || ''}
+                            awayTeamScore={user?.hunches?.[game.id]?.awayTeamScore || ''}
                         />
                     )
                 )}

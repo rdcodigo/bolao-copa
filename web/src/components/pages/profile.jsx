@@ -1,40 +1,44 @@
-import { BaseURL } from "../../router"
-
 import { ArrowIcon } from "../icons/arrowIcons"
 import { HunchCard } from "../hunches/hunchCard"
 import { HunchDate } from "../hunches/hunchDate"
 
 import { useAsyncFn, useLocalStorage } from "react-use"
 import {useEffect, useState } from "react"
-import { Navigate } from "react-router-dom"
 import { format, formatISO } from "date-fns"
+import { useParams, useNavigate } from 'react-router-dom';
 
 import axios from "axios"
 
 export function Profile() {
+    const params = useParams()
+    const navigate = useNavigate()
 
     const [currentDate, setCurrentDate] = useState(formatISO(new Date(2022, 10, 20)))
 
-    const [auth] = useLocalStorage('auth', {})
+    const [auth, setAuth] = useLocalStorage('auth', {})
 
-    const [hunches, fetchHunches] = useAsyncFn(
+
+    const [{value: user, loading, error}, fetchHunches] = useAsyncFn(
         async () => {
             const res = await axios(
                 {
                     methoc: 'get',
-                    baseURL: BaseURL(),
-                    url: `/${auth.user.username}`
+                    baseURL: import.meta.env.VITE_API_URL,
+                    url: `/${params.username}`
                 }
             )
             
-            const hunches = res.data.reduce(
+            const hunches = res.data.hunches.reduce(
                 (acc, hunch)=>{
                     acc[hunch.gameId] = hunch
                     return acc
                 },
                 {}
             )
-            return hunches
+            return {
+                ...res.data,
+                hunches
+            }
         }
     )
 
@@ -43,7 +47,7 @@ export function Profile() {
             const res = await axios(
                 {
                     methoc: 'get',
-                    baseURL: BaseURL(),
+                    baseURL: import.meta.env.VITE_API_URL,
                     url: '/games',
                     params
                 }
@@ -53,8 +57,13 @@ export function Profile() {
         }
     )
     
-    const isLoading = games.loading || hunches.loading
-    const hasError = games.error || hunches.error
+    function logout(){
+        setAuth({})
+        navigate('/login')
+    }
+
+    const isLoading = games.loading || loading
+    const hasError = games.error || error
     const isDone = !isLoading && !hasError
 
     useEffect(
@@ -71,10 +80,6 @@ export function Profile() {
         [currentDate]
     )
 
-    if (!auth?.user?.id) {
-        return <Navigate to="/login" replace={true} />
-    }
-
     return (
         <>
             <header className="py-4 text-color2 bg-color3-20 p-6">
@@ -82,18 +87,20 @@ export function Profile() {
                     <div className="flex justify-center">
                         <img src="../public/imgs/logo/logo-fundo-vermelho.svg" className="w-20 md:w-28"></img>
                     </div>
-                    <div className="flex space-x-4 items-center">
-                        <div onClick={() => setAuth({})} className="cursor-pointer">
-                            Sair
+                    {auth?.user?.id && (
+                        <div className="flex space-x-4 items-center">
+                            <div onClick={logout} className="cursor-pointer">
+                                Sair
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </section>
                 <section className="bg-color3-20 container max-w-xl">
                     <div className="container max-w-xl py-6 space-y-6 flex flex-col">
                         <a href="/home" className="flex space-x-3">
                             <ArrowIcon name="arrowBack" className="w-4" /> <span>Palpitar</span>
                         </a>
-                        <h1 className="text-xl md:text-2xl font-bold text-white">{auth.user.name}</h1>
+                        <h1 className="text-xl md:text-2xl font-bold text-white">{user?.name}</h1>
                     </div>
                 </section>
             </header>
@@ -115,8 +122,8 @@ export function Profile() {
                             homeTeam={game.homeTeam }
                             awayTeam={game.awayTeam}
                             gameTime={format(new Date(game.gameTime), 'H:mm')}
-                            homeTeamScore={hunches?.value?.[game.id]?.homeTeamScore || ''}
-                            awayTeamScore={hunches?.value?.[game.id]?.awayTeamScore || ''}
+                            homeTeamScore={user?.hunches?.[game.id]?.homeTeamScore || ''}
+                            awayTeamScore={user?.hunches?.[game.id]?.awayTeamScore || ''}
                             disabled={true}
                         />
                     )
