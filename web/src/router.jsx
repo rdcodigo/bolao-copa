@@ -16,6 +16,10 @@ const routers = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/home",
+    element: <Home />,
+  },
+  {
     path: "/signup",
     element: <Signup />,
   },
@@ -33,7 +37,14 @@ const routers = createBrowserRouter([
   }
 ]);
 
+export function BaseURL(){
+  return (
+    'http://localhost:3000'
+  )
+}
+
 export default function Router() {
+
   return (
     <RouterProvider router={routers} />
   )

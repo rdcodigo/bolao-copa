@@ -1,9 +1,14 @@
+import { BaseURL } from "../../router"
+
 import { ArrowIcon } from "../icons/arrowIcons"
 import { Input } from "../inputs/dataInputs"
-import Axios from "axios"
+
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
+
+import { Navigate } from "react-router-dom"
+import { useLocalStorage } from "react-use"
 
 
 const validationSchema = Yup.object().shape({
@@ -15,17 +20,21 @@ const validationSchema = Yup.object().shape({
 
 export function Signup() {
 
+  const [auth, setAuth] = useLocalStorage('auth', {})
+
   const formik = useFormik({
     onSubmit: async (values) => {
 
       const res = await axios({
         method: 'post',
-        baseURL: 'http://localhost:3000',
+        baseURL: BaseURL(),
         url: '/users',
         data: values
       })
 
-      console.log(res.data)
+      setAuth(res.data)
+      console.log(auth)
+
     },
     initialValues: {
       name: '',
@@ -35,6 +44,10 @@ export function Signup() {
     },
     validationSchema
   })
+
+  if (auth?.user?.id) {
+    return <Navigate to="/profile" replace={true} />
+  }
 
   return (
     <>
@@ -100,11 +113,10 @@ export function Signup() {
 
             <button
               type="submit"
-              href="./dashboard"
               className=' block w-full text-center text-color2 bg-color3-20 p-3 rounded-xl disabled:opacity-50'
-              disabled={!formik.isValid}
+              disabled={!formik.isValid || formik.isSubmitting}
             >
-              Criar conta
+              {formik.isSubmitting ? 'Carregando...' : 'Criar Conta'}
             </button>
           </form>
         </section>

@@ -1,4 +1,12 @@
+import { Navigate } from "react-router-dom"
+import { useLocalStorage } from "react-use"
+
 export function Home() {
+  const [auth] = useLocalStorage('auth', {})
+
+  if (auth?.user?.id) {
+    return <Navigate to="/dashboard" replace={true} />
+  }
 
   return (
     <div className='h-screen bg-color3-30 text-color2 p-2 md:p-4 flex flex-col items-center space-y-6'>
